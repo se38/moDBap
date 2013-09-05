@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-16"?>
+<MSAG ARBGB="ZMODBAP" MASTERLANG="E" RESPUSER="SE38_UWE" LASTUSER="SE38_UWE" LDATE="20120218" LTIME="093122" STEXT="moDBap">
+ <t100 SPRSL="E" ARBGB="ZMODBAP" MSGNR="001" TEXT="Communication failure"/>
+ <t100 SPRSL="E" ARBGB="ZMODBAP" MSGNR="002" TEXT="DB response: &amp;1"/>
+ <t100 SPRSL="E" ARBGB="ZMODBAP" MSGNR="003" TEXT="Please pass either JSON (newObj) or ABAP data (DATA)"/>
+ <t100t SPRSL="E" ARBGB="ZMODBAP" STEXT="moDBap"/>
+</MSAG>

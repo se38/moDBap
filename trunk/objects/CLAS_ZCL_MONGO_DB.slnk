@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-16"?>
+<CLAS CLSNAME="ZCL_MONGO_DB" VERSION="1" LANGU="E" DESCRIPT="Mongo DB db" UUID="000C2924C4D21ED194E557FD27684A82" CATEGORY="00" EXPOSURE="2" STATE="1" RELEASE="0" AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDON="00000000" CHGDANYON="00000000" CLSCCINCL="X" FIXPT="X" UNICODE="X" R3RELEASE="702" CLSBCCAT="00" DURATION_TYPE="0 " RISK_LEVEL="0 ">
+ <types CLSNAME="ZCL_MONGO_DB" CMPNAME="TS_RESPONSE" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120223" CHANGEDBY="SE38_UWE" CHANGEDON="20120223" TYPTYPE="4" SRCROW1="6 " SRCCOLUMN1="4 " SRCROW2="12 " SRCCOLUMN2="26 " TYPESRC_LENG="201 " TYPESRC="BEGIN OF ts_response
+       ,   ok      TYPE i
+       ,   results TYPE string
+       ,   errmsg  TYPE string
+       ,   server  TYPE string
+       ,   id      TYPE i
+       , END OF ts_response
+"/>
+ <publicSection>class ZCL_MONGO_DB definition
+  public
+  create public .
+
+public section.
+*&quot;* public components of class ZCL_MONGO_DB
+*&quot;* do not include other source files here!!!
+
+  data CLIENT type ref to IF_HTTP_CLIENT .
+
+  methods CONSTRUCTOR
+    importing
+      !CONNECTION type ref to ZCL_MONGO_CONNECTION
+      !DBNAME type STRING .
+  methods GET_DBNAME
+    returning
+      value(DBNAME) type STRING .
+  methods COLLECTION
+    importing
+      !COLLECTIONNAME type STRING
+    returning
+      value(COLLECTION) type ref to ZCL_MONGO_COLLECTION .
+  methods CMD
+    importing
+      !CMD type STRING optional
+    returning
+      value(RESULT) type STRING
+    raising
+      ZCX_MODBAP .
+  methods AUTH
+    importing
+      !USERNAME type STRING
+      !PASSWORD type STRING
+    exporting
+      !RESULT type STRING
+    raising
+      ZCX_MODBAP .</publicSection>
+ <protectedSection>protected section.
+*&quot;* protected components of class ZCL_MONGO_DB
+*&quot;* do not include other source files here!!!</protectedSection>
+ <privateSection>private section.
+*&quot;* private components of class ZCL_MONGO_DB
+*&quot;* do not include other source files here!!!
+
+  types:
+    BEGIN OF ts_response
+       ,   ok      TYPE i
+       ,   results TYPE string
+       ,   errmsg  TYPE string
+       ,   server  TYPE string
+       ,   id      TYPE i
+       , END OF ts_response .
+
+  data CONNECTION type ref to ZCL_MONGO_CONNECTION .
+  data DBNAME type STRING .
+  data JSON_DOC type ref to ZCL_JSON_DOCUMENT .</privateSection>
+ <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+ <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+ <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+ <attribute CLSNAME="ZCL_MONGO_DB" CMPNAME="CLIENT" VERSION="1" LANGU="E" DESCRIPT="HTTP Client Abstraction" EXPOSURE="2" STATE="1" EDITORDER="3 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="3" TYPE="IF_HTTP_CLIENT" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+ <attribute CLSNAME="ZCL_MONGO_DB" CMPNAME="CONNECTION" VERSION="1" LANGU="E" DESCRIPT="Mongo DB Connection" EXPOSURE="0" STATE="1" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDON="00000000" ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="3" TYPE="ZCL_MONGO_CONNECTION" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " R3RELEASE="702" TYPESRC_LENG="0 "/>
+ <attribute CLSNAME="ZCL_MONGO_DB" CMPNAME="DBNAME" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="2 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="STRING" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+ <attribute CLSNAME="ZCL_MONGO_DB" CMPNAME="JSON_DOC" VERSION="1" LANGU="E" DESCRIPT="JSON Document" EXPOSURE="0" STATE="1" EDITORDER="4 " AUTHOR="SE38_UWE" CREATEDON="20120223" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="3" TYPE="ZCL_JSON_DOCUMENT" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " R3RELEASE="702" TYPESRC_LENG="0 "/>
+ <method CLSNAME="ZCL_MONGO_DB" CMPNAME="AUTH" VERSION="1" LANGU="E" DESCRIPT="Authenticate user" EXPOSURE="2" STATE="1" EDITORDER="5 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+  <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="AUTH" SCONAME="USERNAME" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120223" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+  <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="AUTH" SCONAME="PASSWORD" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120223" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+  <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="AUTH" SCONAME="RESULT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="3 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120223" CHANGEDON="00000000" PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+  <exception CLSNAME="ZCL_MONGO_DB" CMPNAME="AUTH" SCONAME="ZCX_MODBAP" VERSION="1" LANGU="E" DESCRIPT="Exception Class moDBap" MTDTYPE="0" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120223" CHANGEDON="00000000"/>
+  <source>METHOD auth.
+
+*--------------------------------------------------------------------*
+* background
+* see http://www.mongodb.org/display/DOCS/Security+and+Authentication
+* see http://www.mongodb.org/display/DOCS/Implementing+Authentication+in+a+Driver
+*--------------------------------------------------------------------*
+
+  DATA: uri           TYPE string
+      , response_json TYPE string
+      , response      TYPE ts_response
+      .
+
+  uri = |{ me-&gt;dbname }/_authenticate|.
+
+  client-&gt;request-&gt;set_header_field(
+    name = &apos;~request_uri&apos;
+    value = uri
+    ).
+
+  client-&gt;request-&gt;set_header_field(
+    name  = &apos;~request_method&apos;
+    value = &apos;POST&apos;
+    ).
+
+  client-&gt;request-&gt;set_header_field(
+    name = &apos;Content-Type&apos;
+    value = &apos;application/x-www-form-urlencoded&apos;
+    ).
+
+  client-&gt;request-&gt;set_form_field(
+    EXPORTING
+      name  = &apos;username&apos;
+      value = username
+      ).
+
+  client-&gt;request-&gt;set_form_field(
+    EXPORTING
+      name  = &apos;password&apos;
+      value = password
+      ).
+
+  client-&gt;send( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  client-&gt;receive( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  client-&gt;request-&gt;delete_form_field_secure( &apos;username&apos; ).
+  client-&gt;request-&gt;delete_form_field_secure( &apos;password&apos; ).
+
+  response_json = client-&gt;response-&gt;get_cdata( ).
+
+  json_doc-&gt;get_data(
+    EXPORTING
+      json = response_json
+    IMPORTING
+      data = response
+    ).
+
+  IF response-ok = 1.
+    result = response-results.
+  ELSE.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid   = zcx_modbap=&gt;db_error
+        response = response-errmsg.
+  ENDIF.
+
+ENDMETHOD.</source>
+ </method>
+ <method CLSNAME="ZCL_MONGO_DB" CMPNAME="CMD" VERSION="1" LANGU="E" DESCRIPT="Database command" EXPOSURE="2" STATE="1" EDITORDER="4 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+  <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="CMD" SCONAME="CMD" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120221" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING" PAROPTIONL="X"/>
+  <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="CMD" SCONAME="RESULT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120223" PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="STRING"/>
+  <exception CLSNAME="ZCL_MONGO_DB" CMPNAME="CMD" SCONAME="ZCX_MODBAP" VERSION="1" LANGU="E" DESCRIPT="Exception Class moDBap" MTDTYPE="0" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDON="00000000"/>
+  <source>METHOD cmd.
+
+  DATA: uri           TYPE string
+      , cdata         TYPE string
+      .
+
+*--------------------------------------------------------------------*
+* see list of database commands:
+* http://www.mongodb.org/display/DOCS/List+of+Database+Commands
+*
+* example:
+* {&quot;buildinfo&quot;:1}
+* {&quot;count&quot;:&quot;scarr&quot;}
+*--------------------------------------------------------------------*
+
+  cdata = |cmd={ cl_http_utility=&gt;escape_url( cmd ) }|.
+  client-&gt;request-&gt;set_cdata( cdata ).
+
+  uri = |{ me-&gt;dbname }/_cmd|.
+
+  client-&gt;request-&gt;set_header_field(
+    name = &apos;~request_uri&apos;
+    value = uri
+    ).
+
+  client-&gt;request-&gt;set_header_field(
+    name  = &apos;~request_method&apos;
+    value = &apos;POST&apos;
+    ).
+
+  client-&gt;request-&gt;set_header_field(
+    name = &apos;Content-Type&apos;
+    value = &apos;application/x-www-form-urlencoded&apos;
+    ).
+
+  client-&gt;send( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  client-&gt;receive( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  result = client-&gt;response-&gt;get_cdata( ).
+
+ENDMETHOD.</source>
+ </method>
+ <method CLSNAME="ZCL_MONGO_DB" CMPNAME="COLLECTION" VERSION="1" LANGU="E" DESCRIPT="set collection" EXPOSURE="2" STATE="1" EDITORDER="3 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" MTDTYPE="0" MTDDECLTYP="0" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+  <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="COLLECTION" SCONAME="COLLECTIONNAME" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+  <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="COLLECTION" SCONAME="COLLECTION" VERSION="1" LANGU="E" DESCRIPT="Mongo DB collection" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDBY="SE38_UWE" CHANGEDON="20120209" PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="3" TYPE="ZCL_MONGO_COLLECTION"/>
+  <source>METHOD collection.
+
+  CREATE OBJECT collection
+    EXPORTING
+      db         = me
+      collection = collectionname.
+
+ENDMETHOD.</source>
+ </method>
+ <method CLSNAME="ZCL_MONGO_DB" CMPNAME="CONSTRUCTOR" VERSION="1" LANGU="E" DESCRIPT="CONSTRUCTOR" EXPOSURE="2" STATE="1" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDON="00000000" MTDTYPE="2" MTDDECLTYP="0" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+  <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="CONSTRUCTOR" SCONAME="CONNECTION" VERSION="1" LANGU="E" DESCRIPT="Mongo DB Connection" CMPTYPE="1" MTDTYPE="2" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="ZCL_MONGO_CONNECTION"/>
+  <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="CONSTRUCTOR" SCONAME="DBNAME" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+  <source>METHOD constructor.
+
+  me-&gt;client     = connection-&gt;client.
+  me-&gt;connection = connection.
+  me-&gt;dbname     = dbname.
+
+  CREATE OBJECT me-&gt;json_doc.
+
+ENDMETHOD.</source>
+ </method>
+ <method CLSNAME="ZCL_MONGO_DB" CMPNAME="GET_DBNAME" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDON="00000000" MTDTYPE="0" MTDDECLTYP="0" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+  <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="GET_DBNAME" SCONAME="DBNAME" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDON="00000000" PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="STRING"/>
+  <source>METHOD get_dbname.
+
+  dbname = me-&gt;dbname.
+
+ENDMETHOD.</source>
+ </method>
+</CLAS>

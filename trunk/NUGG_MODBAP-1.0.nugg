@@ -1,0 +1,1296 @@
+<?xml version="1.0" encoding="utf-16"?>
+<nugget name="MODBAP-1.0">
+ <CLAS CLSNAME="ZCL_MONGO_COLLECTION" VERSION="1" LANGU="E" DESCRIPT="Mongo DB collection" UUID="000C2924C4D21ED194E57897A9944A82" CATEGORY="00" EXPOSURE="2" STATE="1" RELEASE="0" AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDON="00000000" CHGDANYON="00000000" CLSCCINCL="X" FIXPT="X" UNICODE="X" R3RELEASE="702" CLSBCCAT="00" DURATION_TYPE="0 " RISK_LEVEL="0 ">
+  <types CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="TS_RESPONSE" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" TYPTYPE="4" SRCROW1="6 " SRCCOLUMN1="4 " SRCROW2="12 " SRCCOLUMN2="26 " TYPESRC_LENG="201 " TYPESRC="BEGIN OF ts_response
+       ,   ok      TYPE i
+       ,   results TYPE string
+       ,   errmsg  TYPE string
+       ,   server  TYPE string
+       ,   id      TYPE i
+       , END OF ts_response
+"/>
+  <publicSection>class ZCL_MONGO_COLLECTION definition
+  public
+  create public .
+
+public section.
+*&quot;* public components of class ZCL_MONGO_COLLECTION
+*&quot;* do not include other source files here!!!
+
+  methods CONSTRUCTOR
+    importing
+      !DB type ref to ZCL_MONGO_DB
+      !COLLECTION type STRING .
+  methods FIND
+    importing
+      !CRITERIA type STRING optional
+      !BATCH_SIZE type N optional
+      !FIELDS type STRING optional
+      !SORT type STRING optional
+      !SKIP type N optional
+      !LIMIT type N optional
+    exporting
+      !RESULT type STRING
+      !DATA type ANY
+    raising
+      ZCX_MODBAP .
+  methods FIND_ONE
+    importing
+      !CRITERIA type STRING optional
+      !FIELDS type STRING optional
+      !SORT type STRING optional
+    exporting
+      !RESULT type STRING
+      !DATA type ANY
+    raising
+      ZCX_MODBAP .
+  methods FIND_MORE
+    exporting
+      !RESULT type STRING
+      !DATA type ANY
+    raising
+      ZCX_MODBAP .
+  methods INSERT
+    importing
+      !DOCS type ANY
+    returning
+      value(RESULT) type STRING
+    raising
+      ZCX_MODBAP .
+  methods REMOVE
+    importing
+      !CRITERIA type STRING
+    returning
+      value(RESULT) type STRING
+    raising
+      ZCX_MODBAP .
+  methods UPDATE
+    importing
+      !CRITERIA type STRING
+      !NEWOBJ type STRING optional
+      !DATA type ANY optional
+    returning
+      value(RESULT) type STRING
+    raising
+      ZCX_MODBAP .
+  methods DROP
+    returning
+      value(RESULT) type STRING
+    raising
+      ZCX_MODBAP .
+  methods COUNT
+    returning
+      value(ENTRIES) type INT4
+    raising
+      ZCX_MODBAP .
+  methods DISTINCT
+    importing
+      !KEY type STRING
+    returning
+      value(VALUES) type STRING
+    raising
+      ZCX_MODBAP .
+  methods GROUP
+    importing
+      !KEY type STRING
+      !REDUCE type STRING
+      !INITIAL type STRING
+      !CONDITION type STRING optional
+    returning
+      value(RESULT) type STRING
+    raising
+      ZCX_MODBAP .</publicSection>
+  <protectedSection>protected section.
+*&quot;* protected components of class ZCL_MONGO_COLLECTION
+*&quot;* do not include other source files here!!!</protectedSection>
+  <privateSection>private section.
+*&quot;* private components of class ZCL_MONGO_COLLECTION
+*&quot;* do not include other source files here!!!
+
+  types:
+    BEGIN OF ts_response
+       ,   ok      TYPE i
+       ,   results TYPE string
+       ,   errmsg  TYPE string
+       ,   server  TYPE string
+       ,   id      TYPE i
+       , END OF ts_response .
+
+  data DB type ref to ZCL_MONGO_DB .
+  data CLIENT type ref to IF_HTTP_CLIENT .
+  data COLLECTION type STRING .
+  data JSON_DOC type ref to ZCL_JSON_DOCUMENT .
+  data CURSOR type NUMC10 .</privateSection>
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <attribute CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="CLIENT" VERSION="1" LANGU="E" DESCRIPT="HTTP Client Abstraction" EXPOSURE="0" STATE="1" EDITORDER="2 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="3" TYPE="IF_HTTP_CLIENT" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="COLLECTION" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="3 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="STRING" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="CURSOR" VERSION="1" LANGU="E" DESCRIPT="Numeric Character Field, Length 10" EXPOSURE="0" STATE="1" EDITORDER="5 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="NUMC10" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="DB" VERSION="1" LANGU="E" DESCRIPT="Mongo DB db" EXPOSURE="0" STATE="1" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDON="00000000" ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="3" TYPE="ZCL_MONGO_DB" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " R3RELEASE="702" TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="JSON_DOC" VERSION="1" LANGU="E" DESCRIPT="JSON Document" EXPOSURE="0" STATE="1" EDITORDER="4 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="3" TYPE="ZCL_JSON_DOCUMENT" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <method CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="CONSTRUCTOR" VERSION="1" LANGU="E" DESCRIPT="CONSTRUCTOR" EXPOSURE="2" STATE="1" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDON="00000000" MTDTYPE="2" MTDDECLTYP="0" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="CONSTRUCTOR" SCONAME="DB" VERSION="1" LANGU="E" DESCRIPT="Mongo DB db" CMPTYPE="1" MTDTYPE="2" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="ZCL_MONGO_DB"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="CONSTRUCTOR" SCONAME="COLLECTION" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <source>METHOD constructor.
+
+  me-&gt;client = db-&gt;client.
+  me-&gt;db     = db.
+  me-&gt;collection = collection.
+
+  CREATE OBJECT me-&gt;json_doc.
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="COUNT" VERSION="1" LANGU="E" DESCRIPT="count entries in collection" EXPOSURE="2" STATE="1" EDITORDER="9 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="COUNT" SCONAME="ENTRIES" VERSION="1" LANGU="E" DESCRIPT="Natural number" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDON="00000000" PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="INT4"/>
+   <exception CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="COUNT" SCONAME="ZCX_MODBAP" VERSION="1" LANGU="E" DESCRIPT="Exception Class moDBap" MTDTYPE="0" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDON="00000000"/>
+   <source>METHOD count.
+
+  TYPES: BEGIN OF ts_result
+       ,   ok TYPE i
+       ,   n  TYPE i
+       , END OF ts_result
+       .
+
+  DATA: cmd         TYPE string
+      , result_json TYPE string
+      , result      TYPE ts_result
+      .
+
+  cmd = |\{&quot;count&quot;:&quot;{ me-&gt;collection }&quot;\}|.
+  result_json = me-&gt;db-&gt;cmd( cmd ).
+
+  json_doc-&gt;get_data(
+    EXPORTING json = result_json
+    IMPORTING data = result ).
+
+  IF result-ok = 1.
+    entries = result-n.
+  ENDIF.
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="DISTINCT" VERSION="1" LANGU="E" DESCRIPT="get distinct values" EXPOSURE="2" STATE="1" EDITORDER="10 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="DISTINCT" SCONAME="KEY" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="DISTINCT" SCONAME="VALUES" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDON="00000000" PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="STRING"/>
+   <exception CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="DISTINCT" SCONAME="ZCX_MODBAP" VERSION="1" LANGU="E" DESCRIPT="Exception Class moDBap" MTDTYPE="0" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDON="00000000"/>
+   <source>METHOD distinct.
+
+  TYPES: BEGIN OF ts_result
+       ,   values TYPE string
+       ,   ok     TYPE i
+       , END OF ts_result
+       .
+  DATA: cmd         TYPE string
+      , ok          TYPE i
+      , result_json TYPE string
+      , result      TYPE ts_result
+      .
+
+  cmd = |\{&quot;distinct&quot;:&quot;{ me-&gt;collection }&quot;, &quot;key&quot;:&quot;{ key }&quot;\}|.
+  result_json = me-&gt;db-&gt;cmd( cmd ).
+
+  json_doc-&gt;get_data(
+    EXPORTING json = result_json
+    IMPORTING data = result ).
+
+  IF result-ok = 1.
+    values = result-values.
+  ENDIF.
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="DROP" VERSION="1" LANGU="E" DESCRIPT="drop collection" EXPOSURE="2" STATE="1" EDITORDER="8 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="DROP" SCONAME="RESULT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDON="00000000" PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="STRING"/>
+   <exception CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="DROP" SCONAME="ZCX_MODBAP" VERSION="1" LANGU="E" DESCRIPT="Exception Class moDBap" MTDTYPE="0" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDON="00000000"/>
+   <source>METHOD drop.
+
+  DATA: cmd TYPE string.
+
+  cmd = |\{&quot;drop&quot;:&quot;{ me-&gt;collection }&quot;\}|.
+  result = me-&gt;db-&gt;cmd( cmd ).
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND" VERSION="1" LANGU="E" DESCRIPT="find document(s)" EXPOSURE="2" STATE="1" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDBY="SE38_UWE" CHANGEDON="20120218" MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND" SCONAME="CRITERIA" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND" SCONAME="BATCH_SIZE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120210" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="N" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND" SCONAME="FIELDS" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="3 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND" SCONAME="SORT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="4 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND" SCONAME="SKIP" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="5 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="N" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND" SCONAME="LIMIT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="6 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="N" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND" SCONAME="RESULT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="7 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDBY="SE38_UWE" CHANGEDON="20120217" PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND" SCONAME="DATA" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="8 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120217" CHANGEDBY="SE38_UWE" CHANGEDON="20120217" PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY"/>
+   <exception CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND" SCONAME="ZCX_MODBAP" VERSION="1" LANGU="E" DESCRIPT="Exception Class moDBap" MTDTYPE="0" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDON="00000000"/>
+   <source>METHOD find.
+
+  DATA: uri            TYPE string
+      , response_json  TYPE string
+      , response       TYPE ts_response
+      , escaped        TYPE string
+      , num_c          TYPE c LENGTH 10
+      , next_delimiter TYPE c LENGTH 1 VALUE &apos;?&apos;
+      .
+
+  uri = |{ me-&gt;db-&gt;get_dbname( ) }/{ me-&gt;collection }/_find|.
+
+  IF criteria IS NOT INITIAL.
+    escaped = cl_http_utility=&gt;escape_url( criteria ).
+    CONCATENATE
+      uri
+      next_delimiter
+      &apos;criteria=&apos;
+      escaped
+    INTO uri.
+    next_delimiter = &apos;&amp;&apos;.
+  ENDIF.
+
+  IF batch_size IS NOT INITIAL.
+    num_c = batch_size.
+    CONCATENATE
+      uri
+      next_delimiter
+      &apos;batch_size=&apos;
+      num_c
+    INTO uri.
+    next_delimiter = &apos;&amp;&apos;.
+  ENDIF.
+
+  IF fields IS NOT INITIAL.
+    escaped = cl_http_utility=&gt;escape_url( fields ).
+    CONCATENATE
+      uri
+      next_delimiter
+      &apos;fields=&apos;
+      escaped
+    INTO uri.
+    next_delimiter = &apos;&amp;&apos;.
+  ENDIF.
+
+  IF sort IS NOT INITIAL.
+    escaped = cl_http_utility=&gt;escape_url( sort ).
+    CONCATENATE
+      uri
+      next_delimiter
+      &apos;sort=&apos;
+      escaped
+    INTO uri.
+    next_delimiter = &apos;&amp;&apos;.
+  ENDIF.
+
+  IF skip IS NOT INITIAL.
+    num_c = skip.
+    CONCATENATE
+      uri
+      next_delimiter
+      &apos;skip=&apos;
+      num_c
+    INTO uri.
+    next_delimiter = &apos;&amp;&apos;.
+  ENDIF.
+
+  IF limit IS NOT INITIAL.
+    num_c = limit.
+    CONCATENATE
+      uri
+      next_delimiter
+      &apos;limit=&apos;
+      num_c
+    INTO uri.
+    next_delimiter = &apos;&amp;&apos;.
+  ENDIF.
+
+  client-&gt;request-&gt;set_header_field(
+    name = &apos;~request_uri&apos;
+    value = uri
+    ).
+
+  client-&gt;request-&gt;set_header_field(
+    name  = &apos;~request_method&apos;
+    value = &apos;GET&apos;
+    ).
+
+  client-&gt;send( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  client-&gt;receive( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  response_json = client-&gt;response-&gt;get_cdata( ).
+
+  json_doc-&gt;get_data(
+    EXPORTING
+      json = response_json
+    IMPORTING
+      data = response
+    ).
+
+  IF response-ok = 1.
+
+    &quot;*--- JSON or ABAP data requested?---*
+    IF data IS REQUESTED.
+      json_doc-&gt;get_data(
+        EXPORTING
+          json = response-results
+        IMPORTING
+          data = data
+        ).
+    ELSE.
+      result = response-results.
+    ENDIF.
+
+  ELSE.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid   = zcx_modbap=&gt;db_error
+        response = response-errmsg.
+  ENDIF.
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND_MORE" VERSION="1" LANGU="E" DESCRIPT="find next document" EXPOSURE="2" STATE="1" EDITORDER="4 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120218" MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND_MORE" SCONAME="RESULT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120217" PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND_MORE" SCONAME="DATA" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120217" CHANGEDON="00000000" PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY"/>
+   <exception CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND_MORE" SCONAME="ZCX_MODBAP" VERSION="1" LANGU="E" DESCRIPT="Exception Class moDBap" MTDTYPE="0" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDON="00000000"/>
+   <source>METHOD FIND_MORE.
+
+  DATA: uri            TYPE string
+      , response_json  TYPE string
+      , response       TYPE ts_response
+      , escaped        TYPE string
+      , num_c          TYPE c LENGTH 10
+      , next_delimiter TYPE c LENGTH 1 VALUE &apos;?&apos;
+      .
+
+  num_c = me-&gt;cursor.
+
+  uri = |{ me-&gt;db-&gt;get_dbname( ) }/{ me-&gt;collection }/_more?batch_size=1&amp;id={ num_c }|.
+
+  client-&gt;request-&gt;set_header_field(
+    name = &apos;~request_uri&apos;
+    value = uri
+    ).
+
+  client-&gt;request-&gt;set_header_field(
+    name  = &apos;~request_method&apos;
+    value = &apos;GET&apos;
+    ).
+
+  client-&gt;send( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  client-&gt;receive( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  response_json = client-&gt;response-&gt;get_cdata( ).
+
+  json_doc-&gt;get_data(
+    EXPORTING
+      json = response_json
+    IMPORTING
+      data = response
+    ).
+
+  IF response-ok = 1.
+
+    me-&gt;cursor = response-id.    &quot;store database cursor for find_more
+
+    &quot;*--- because of batch_size=1 we only get one object ---*
+    &quot;*--&gt; delete &quot;[]&quot;
+    SHIFT response-results RIGHT DELETING TRAILING &apos;]&apos;.
+    SHIFT response-results LEFT DELETING LEADING space.
+    SHIFT response-results LEFT DELETING LEADING &apos;[&apos;.
+
+    &quot;*--- JSON or ABAP data requested?---*
+    IF data IS REQUESTED.
+      json_doc-&gt;get_data(
+        EXPORTING
+          json = response-results
+        IMPORTING
+          data = data
+        ).
+    ELSE.
+      result = response-results.
+    ENDIF.
+
+  ELSE.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid   = zcx_modbap=&gt;db_error
+        response = response-errmsg.
+  ENDIF.
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND_ONE" VERSION="1" LANGU="E" DESCRIPT="find one document" EXPOSURE="2" STATE="1" EDITORDER="3 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120218" MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND_ONE" SCONAME="CRITERIA" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND_ONE" SCONAME="FIELDS" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND_ONE" SCONAME="SORT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="3 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND_ONE" SCONAME="RESULT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="4 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120217" PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND_ONE" SCONAME="DATA" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="5 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120217" CHANGEDON="00000000" PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY"/>
+   <exception CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="FIND_ONE" SCONAME="ZCX_MODBAP" VERSION="1" LANGU="E" DESCRIPT="Exception Class moDBap" MTDTYPE="0" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDON="00000000"/>
+   <source>METHOD find_one.
+
+  DATA: uri            TYPE string
+      , response_json  TYPE string
+      , response       TYPE ts_response
+      , escaped        TYPE string
+      , num_c          TYPE c LENGTH 10
+      , next_delimiter TYPE c LENGTH 1 VALUE &apos;?&apos;
+      .
+
+  uri = |{ me-&gt;db-&gt;get_dbname( ) }/{ me-&gt;collection }/_find|.
+
+  IF criteria IS NOT INITIAL.
+    escaped = cl_http_utility=&gt;escape_url( criteria ).
+    CONCATENATE
+      uri
+      next_delimiter
+      &apos;criteria=&apos;
+      escaped
+    INTO uri.
+    next_delimiter = &apos;&amp;&apos;.
+  ENDIF.
+
+  CONCATENATE
+    uri
+    next_delimiter
+    &apos;batch_size=1&apos;
+  INTO uri.
+  next_delimiter = &apos;&amp;&apos;.
+
+  IF fields IS NOT INITIAL.
+    escaped = cl_http_utility=&gt;escape_url( fields ).
+    CONCATENATE
+      uri
+      next_delimiter
+      &apos;fields=&apos;
+      escaped
+    INTO uri.
+    next_delimiter = &apos;&amp;&apos;.
+  ENDIF.
+
+  IF sort IS NOT INITIAL.
+    escaped = cl_http_utility=&gt;escape_url( sort ).
+    CONCATENATE
+      uri
+      next_delimiter
+      &apos;sort=&apos;
+      escaped
+    INTO uri.
+    next_delimiter = &apos;&amp;&apos;.
+  ENDIF.
+
+  client-&gt;request-&gt;set_header_field(
+    name = &apos;~request_uri&apos;
+    value = uri
+    ).
+
+  client-&gt;request-&gt;set_header_field(
+    name  = &apos;~request_method&apos;
+    value = &apos;GET&apos;
+    ).
+
+  client-&gt;send( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+
+  client-&gt;receive( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  response_json = client-&gt;response-&gt;get_cdata( ).
+
+  json_doc-&gt;get_data(
+    EXPORTING
+      json = response_json
+    IMPORTING
+      data = response
+    ).
+
+  IF response-ok = 1.
+
+    me-&gt;cursor = response-id.    &quot;store database cursor for find_more
+
+    &quot;*--- because of batch_size=1 we only get one object ---*
+    &quot;*--&gt; delete &quot;[]&quot;
+    SHIFT response-results RIGHT DELETING TRAILING &apos;]&apos;.
+    SHIFT response-results LEFT DELETING LEADING space.
+    SHIFT response-results LEFT DELETING LEADING &apos;[&apos;.
+
+    &quot;*--- JSON or ABAP data requested?---*
+    IF data IS REQUESTED.
+      json_doc-&gt;get_data(
+        EXPORTING
+          json = response-results
+        IMPORTING
+          data = data
+        ).
+    ELSE.
+      result = response-results.
+    ENDIF.
+
+  ELSE.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid   = zcx_modbap=&gt;db_error
+        response = response-errmsg.
+  ENDIF.
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="GROUP" VERSION="1" LANGU="E" DESCRIPT="group by" EXPOSURE="2" STATE="1" EDITORDER="11 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120227" CHANGEDBY="SE38_UWE" CHANGEDON="20120227" MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="GROUP" SCONAME="KEY" VERSION="1" LANGU="E" DESCRIPT='e.g. &quot;carrid&quot;:true' CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120227" CHANGEDBY="SE38_UWE" CHANGEDON="20120227" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="GROUP" SCONAME="REDUCE" VERSION="1" LANGU="E" DESCRIPT="function(doc,prev) e.g. prev.sumseats += doc.seatsmax" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120227" CHANGEDBY="SE38_UWE" CHANGEDON="20120227" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="GROUP" SCONAME="INITIAL" VERSION="1" LANGU="E" DESCRIPT='e.g. &quot;prev.sumseats&quot;:0' CMPTYPE="1" MTDTYPE="0" EDITORDER="3 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120227" CHANGEDBY="SE38_UWE" CHANGEDON="20120227" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="GROUP" SCONAME="CONDITION" VERSION="1" LANGU="E" DESCRIPT='e.g. &quot;fldate&quot;:{&quot;$gt&quot;:20110101&quot;}' CMPTYPE="1" MTDTYPE="0" EDITORDER="4 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120228" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="GROUP" SCONAME="RESULT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="5 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120227" CHANGEDBY="SE38_UWE" CHANGEDON="20120228" PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="STRING"/>
+   <exception CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="GROUP" SCONAME="ZCX_MODBAP" VERSION="1" LANGU="E" DESCRIPT="Exception Class moDBap" MTDTYPE="0" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120227" CHANGEDON="00000000"/>
+   <source>METHOD group.
+
+  DATA: cmd TYPE string.
+
+  cmd = |\{&quot;group&quot;:\{| &amp;&amp;
+             |&quot;ns&quot;:&quot;{ me-&gt;collection }&quot;,| &amp;&amp;
+             |&quot;key&quot;:\{{ key }\},| &amp;&amp;
+             |&quot;$reduce&quot;: &quot;function(doc,prev) \{{ reduce }\}&quot;,| &amp;&amp;
+             |&quot;initial&quot;:\{{ initial }\},| &amp;&amp;
+             |&quot;condition&quot;:\{{ condition }\}| &amp;&amp;
+        |\}\}|.
+
+  result = db-&gt;cmd( cmd ).
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="INSERT" VERSION="1" LANGU="E" DESCRIPT="insert document(s)" EXPOSURE="2" STATE="1" EDITORDER="5 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDBY="SE38_UWE" CHANGEDON="20120218" MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="INSERT" SCONAME="DOCS" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="INSERT" SCONAME="RESULT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDON="00000000" PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="STRING"/>
+   <exception CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="INSERT" SCONAME="ZCX_MODBAP" VERSION="1" LANGU="E" DESCRIPT="Exception Class moDBap" MTDTYPE="0" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDON="00000000"/>
+   <source>METHOD insert.
+
+  DATA: uri           TYPE string
+      , json          TYPE string
+      , cdata         TYPE string
+      , response_json TYPE string
+      , response      TYPE ts_response
+      .
+
+  json_doc-&gt;set_data( docs ).
+
+  &quot;*--- get JSON ---*
+  json = json_doc-&gt;get_value( &apos;itab&apos; ).
+
+  &quot;*--- just a single record? ---*
+  IF json IS INITIAL.
+    json = json_doc-&gt;get_json( ).
+
+    &quot;*--- make a &quot;collection&quot; ----*
+    json = |[{ json }]|.
+  ENDIF.
+
+  cdata = |docs={ json }|.
+  client-&gt;request-&gt;set_cdata( cdata ).
+
+  uri = |{ me-&gt;db-&gt;get_dbname( ) }/{ me-&gt;collection }/_insert|.
+
+  client-&gt;request-&gt;set_header_field(
+    name = &apos;~request_uri&apos;
+    value = uri
+    ).
+
+  client-&gt;request-&gt;set_header_field(
+    name  = &apos;~request_method&apos;
+    value = &apos;POST&apos;
+    ).
+
+  client-&gt;request-&gt;set_header_field(
+    name = &apos;Content-Type&apos;
+    value = &apos;application/x-www-form-urlencoded&apos;
+    ).
+
+  client-&gt;send( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  client-&gt;receive( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  result = client-&gt;response-&gt;get_cdata( ).
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="REMOVE" VERSION="1" LANGU="E" DESCRIPT="remove document(s)" EXPOSURE="2" STATE="1" EDITORDER="6 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120218" MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="REMOVE" SCONAME="CRITERIA" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120210" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="REMOVE" SCONAME="RESULT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120218" PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="STRING"/>
+   <exception CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="REMOVE" SCONAME="ZCX_MODBAP" VERSION="1" LANGU="E" DESCRIPT="Exception Class moDBap" MTDTYPE="0" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDON="00000000"/>
+   <source>METHOD remove.
+
+  DATA: uri           TYPE string
+      , cdata         TYPE string
+      , response_json TYPE string
+      , response      TYPE ts_response
+      .
+
+  uri = |{ me-&gt;db-&gt;get_dbname( ) }/{ me-&gt;collection }/_remove|.
+
+  client-&gt;request-&gt;set_header_field(
+    name = &apos;~request_uri&apos;
+    value = uri
+    ).
+
+  cdata = |criteria={ criteria }|.
+  client-&gt;request-&gt;set_cdata( cdata ).
+
+  client-&gt;request-&gt;set_header_field(
+    name  = &apos;~request_method&apos;
+    value = &apos;POST&apos;
+    ).
+
+  client-&gt;request-&gt;set_header_field(
+    name = &apos;Content-Type&apos;
+    value = &apos;application/x-www-form-urlencoded&apos;
+    ).
+
+  client-&gt;send( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  client-&gt;receive( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  response_json = client-&gt;response-&gt;get_cdata( ).
+
+  json_doc-&gt;get_data(
+    EXPORTING
+      json = response_json
+    IMPORTING
+      data = response
+    ).
+
+  IF response-ok = 1.
+    result = response-results.
+  ELSE.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid   = zcx_modbap=&gt;db_error
+        response = response-errmsg.
+  ENDIF.
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="UPDATE" VERSION="1" LANGU="E" DESCRIPT="update document(s)" EXPOSURE="2" STATE="1" EDITORDER="7 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120218" MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="UPDATE" SCONAME="CRITERIA" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="UPDATE" SCONAME="NEWOBJ" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120217" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="UPDATE" SCONAME="DATA" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="3 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120217" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="ANY" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="UPDATE" SCONAME="RESULT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="4 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDON="00000000" PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="STRING"/>
+   <exception CLSNAME="ZCL_MONGO_COLLECTION" CMPNAME="UPDATE" SCONAME="ZCX_MODBAP" VERSION="1" LANGU="E" DESCRIPT="Exception Class moDBap" MTDTYPE="0" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDON="00000000"/>
+   <source>METHOD update.
+
+  DATA: uri           TYPE string
+      , cdata         TYPE string
+      , json          TYPE string
+      , response_json TYPE string
+      , response      TYPE ts_response
+      .
+
+  &quot;*--- newObj XOR data ---*
+  IF ( newobj IS INITIAL AND
+       data   IS INITIAL )
+  OR ( newobj IS NOT INITIAL AND
+       data   IS NOT INITIAL ).
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;parameter_error.
+  ENDIF.
+
+  &quot;*--- create JSON ---*
+  IF data IS NOT INITIAL.
+    json_doc-&gt;set_data( data ).
+    json = json_doc-&gt;get_json( ).
+  ELSE.
+    json = newobj.
+  ENDIF.
+
+  uri = |{ me-&gt;db-&gt;get_dbname( ) }/{ me-&gt;collection }/_update|.
+
+  client-&gt;request-&gt;set_header_field(
+    name = &apos;~request_uri&apos;
+    value = uri
+    ).
+
+  cdata = |criteria={ criteria }&amp;newobj={ json }|.
+  client-&gt;request-&gt;set_cdata( cdata ).
+
+
+  client-&gt;request-&gt;set_header_field(
+    name  = &apos;~request_method&apos;
+    value = &apos;POST&apos;
+    ).
+
+  client-&gt;request-&gt;set_header_field(
+    name = &apos;Content-Type&apos;
+    value = &apos;application/x-www-form-urlencoded&apos;
+    ).
+
+  client-&gt;send( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  client-&gt;receive( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  response_json = client-&gt;response-&gt;get_cdata( ).
+
+  json_doc-&gt;get_data(
+    EXPORTING
+      json = response_json
+    IMPORTING
+      data = response
+    ).
+
+  IF response-ok = 1.
+    result = response-results.
+  ELSE.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid   = zcx_modbap=&gt;db_error
+        response = response-errmsg.
+  ENDIF.
+
+ENDMETHOD.</source>
+  </method>
+ </CLAS>
+ <CLAS CLSNAME="ZCL_MONGO_CONNECTION" VERSION="1" LANGU="E" DESCRIPT="Mongo DB Connection" UUID="000C2924C4D21ED194E5324606844A82" CATEGORY="00" EXPOSURE="0" STATE="1" RELEASE="0" AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDBY="SE38_UWE" CHANGEDON="20120209" CHGDANYON="00000000" CLSCCINCL="X" FIXPT="X" UNICODE="X" R3RELEASE="702" CLSBCCAT="00" DURATION_TYPE="0 " RISK_LEVEL="0 ">
+  <publicSection>class ZCL_MONGO_CONNECTION definition
+  public
+  create private .
+
+public section.
+*&quot;* public components of class ZCL_MONGO_CONNECTION
+*&quot;* do not include other source files here!!!
+
+  data CLIENT type ref to IF_HTTP_CLIENT .
+
+  class-methods CONNECT
+    importing
+      !HOST type STRING
+      !PORT type STRING default &apos;27080&apos;
+    returning
+      value(CONNECTION) type ref to ZCL_MONGO_CONNECTION .
+  methods DB
+    importing
+      !DBNAME type STRING
+    returning
+      value(DB) type ref to ZCL_MONGO_DB .
+  methods CLOSE .</publicSection>
+  <protectedSection>protected section.
+*&quot;* protected components of class ZCL_MONGO_CONNECTION
+*&quot;* do not include other source files here!!!</protectedSection>
+  <privateSection>private section.
+*&quot;* private components of class ZCL_MONGO_CONNECTION
+*&quot;* do not include other source files here!!!
+
+  methods CONSTRUCTOR
+    importing
+      !HOST type STRING
+      !PORT type STRING .</privateSection>
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <attribute CLSNAME="ZCL_MONGO_CONNECTION" CMPNAME="CLIENT" VERSION="1" LANGU="E" DESCRIPT="HTTP Client Abstraction" EXPOSURE="2" STATE="1" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="3" TYPE="IF_HTTP_CLIENT" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " R3RELEASE="702" TYPESRC_LENG="0 "/>
+  <method CLSNAME="ZCL_MONGO_CONNECTION" CMPNAME="CLOSE" VERSION="1" LANGU="E" DESCRIPT="Close connection" EXPOSURE="2" STATE="1" EDITORDER="4 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDON="00000000" MTDTYPE="0" MTDDECLTYP="0" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD close.
+
+  client-&gt;close( ).
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_MONGO_CONNECTION" CMPNAME="CONNECT" VERSION="1" LANGU="E" DESCRIPT="Connect to Mongo DB" EXPOSURE="2" STATE="1" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120210" MTDTYPE="0" MTDDECLTYP="1" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_CONNECTION" CMPNAME="CONNECT" SCONAME="HOST" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="ZCL_MONGO_CONNECTION" CMPNAME="CONNECT" SCONAME="PORT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING" PARVALUE="&apos;27080&apos;"/>
+   <parameter CLSNAME="ZCL_MONGO_CONNECTION" CMPNAME="CONNECT" SCONAME="CONNECTION" VERSION="1" LANGU="E" DESCRIPT="Mongo DB Connection" CMPTYPE="1" MTDTYPE="0" EDITORDER="3 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDON="00000000" PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="3" TYPE="ZCL_MONGO_CONNECTION"/>
+   <source>METHOD CONNECT.
+
+  CREATE OBJECT connection
+    EXPORTING
+      host = host
+      port = port.
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_MONGO_CONNECTION" CMPNAME="CONSTRUCTOR" VERSION="1" LANGU="E" DESCRIPT="CONSTRUCTOR" EXPOSURE="0" STATE="1" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDON="00000000" MTDTYPE="2" MTDDECLTYP="0" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_CONNECTION" CMPNAME="CONSTRUCTOR" SCONAME="HOST" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="ZCL_MONGO_CONNECTION" CMPNAME="CONSTRUCTOR" SCONAME="PORT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDBY="SE38_UWE" CHANGEDON="20120209" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <source>METHOD constructor.
+
+  cl_http_client=&gt;create(
+    EXPORTING
+      host   = host
+      service = port
+    IMPORTING
+      client = client
+    EXCEPTIONS
+      argument_not_found = 1
+      plugin_not_active  = 2
+      internal_error     = 3
+      ).
+
+*  client-&gt;request-&gt;set_header_field(
+*    name = &apos;~request_uri&apos;
+*    value = &apos;_connect&apos;
+*    ).
+*
+*  client-&gt;request-&gt;set_header_field(
+*    name  = &apos;~request_method&apos;
+*    value = &apos;POST&apos;
+*    ).
+*
+*  client-&gt;request-&gt;set_header_field(
+*    name = &apos;Content-Type&apos;
+*    value = &apos;application/x-www-form-urlencoded&apos;
+*    ).
+*
+*  client-&gt;send( EXCEPTIONS http_communication_failure = 8 ).
+*  CHECK sy-subrc = 0.
+*
+*  client-&gt;receive( EXCEPTIONS http_communication_failure = 8 ).
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_MONGO_CONNECTION" CMPNAME="DB" VERSION="1" LANGU="E" DESCRIPT="Set DB" EXPOSURE="2" STATE="1" EDITORDER="3 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDON="00000000" MTDTYPE="0" MTDDECLTYP="0" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_CONNECTION" CMPNAME="DB" SCONAME="DBNAME" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="ZCL_MONGO_CONNECTION" CMPNAME="DB" SCONAME="DB" VERSION="1" LANGU="E" DESCRIPT="Mongo DB db" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDON="00000000" PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="3" TYPE="ZCL_MONGO_DB"/>
+   <source>METHOD db.
+
+  CREATE OBJECT db
+    EXPORTING
+      connection = me
+      dbname     = dbname.
+
+ENDMETHOD.</source>
+  </method>
+ </CLAS>
+ <CLAS CLSNAME="ZCL_MONGO_DB" VERSION="1" LANGU="E" DESCRIPT="Mongo DB db" UUID="000C2924C4D21ED194E557FD27684A82" CATEGORY="00" EXPOSURE="2" STATE="1" RELEASE="0" AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDON="00000000" CHGDANYON="00000000" CLSCCINCL="X" FIXPT="X" UNICODE="X" R3RELEASE="702" CLSBCCAT="00" DURATION_TYPE="0 " RISK_LEVEL="0 ">
+  <types CLSNAME="ZCL_MONGO_DB" CMPNAME="TS_RESPONSE" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120223" CHANGEDBY="SE38_UWE" CHANGEDON="20120223" TYPTYPE="4" SRCROW1="6 " SRCCOLUMN1="4 " SRCROW2="12 " SRCCOLUMN2="26 " TYPESRC_LENG="201 " TYPESRC="BEGIN OF ts_response
+       ,   ok      TYPE i
+       ,   results TYPE string
+       ,   errmsg  TYPE string
+       ,   server  TYPE string
+       ,   id      TYPE i
+       , END OF ts_response
+"/>
+  <publicSection>class ZCL_MONGO_DB definition
+  public
+  create public .
+
+public section.
+*&quot;* public components of class ZCL_MONGO_DB
+*&quot;* do not include other source files here!!!
+
+  data CLIENT type ref to IF_HTTP_CLIENT .
+
+  methods CONSTRUCTOR
+    importing
+      !CONNECTION type ref to ZCL_MONGO_CONNECTION
+      !DBNAME type STRING .
+  methods GET_DBNAME
+    returning
+      value(DBNAME) type STRING .
+  methods COLLECTION
+    importing
+      !COLLECTIONNAME type STRING
+    returning
+      value(COLLECTION) type ref to ZCL_MONGO_COLLECTION .
+  methods CMD
+    importing
+      !CMD type STRING optional
+    returning
+      value(RESULT) type STRING
+    raising
+      ZCX_MODBAP .
+  methods AUTH
+    importing
+      !USERNAME type STRING
+      !PASSWORD type STRING
+    exporting
+      !RESULT type STRING
+    raising
+      ZCX_MODBAP .</publicSection>
+  <protectedSection>protected section.
+*&quot;* protected components of class ZCL_MONGO_DB
+*&quot;* do not include other source files here!!!</protectedSection>
+  <privateSection>private section.
+*&quot;* private components of class ZCL_MONGO_DB
+*&quot;* do not include other source files here!!!
+
+  types:
+    BEGIN OF ts_response
+       ,   ok      TYPE i
+       ,   results TYPE string
+       ,   errmsg  TYPE string
+       ,   server  TYPE string
+       ,   id      TYPE i
+       , END OF ts_response .
+
+  data CONNECTION type ref to ZCL_MONGO_CONNECTION .
+  data DBNAME type STRING .
+  data JSON_DOC type ref to ZCL_JSON_DOCUMENT .</privateSection>
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <attribute CLSNAME="ZCL_MONGO_DB" CMPNAME="CLIENT" VERSION="1" LANGU="E" DESCRIPT="HTTP Client Abstraction" EXPOSURE="2" STATE="1" EDITORDER="3 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="3" TYPE="IF_HTTP_CLIENT" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_MONGO_DB" CMPNAME="CONNECTION" VERSION="1" LANGU="E" DESCRIPT="Mongo DB Connection" EXPOSURE="0" STATE="1" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDON="00000000" ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="3" TYPE="ZCL_MONGO_CONNECTION" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " R3RELEASE="702" TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_MONGO_DB" CMPNAME="DBNAME" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="2 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="STRING" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_MONGO_DB" CMPNAME="JSON_DOC" VERSION="1" LANGU="E" DESCRIPT="JSON Document" EXPOSURE="0" STATE="1" EDITORDER="4 " AUTHOR="SE38_UWE" CREATEDON="20120223" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="3" TYPE="ZCL_JSON_DOCUMENT" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " R3RELEASE="702" TYPESRC_LENG="0 "/>
+  <method CLSNAME="ZCL_MONGO_DB" CMPNAME="AUTH" VERSION="1" LANGU="E" DESCRIPT="Authenticate user" EXPOSURE="2" STATE="1" EDITORDER="5 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="AUTH" SCONAME="USERNAME" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120223" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="AUTH" SCONAME="PASSWORD" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120223" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="AUTH" SCONAME="RESULT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="3 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120223" CHANGEDON="00000000" PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <exception CLSNAME="ZCL_MONGO_DB" CMPNAME="AUTH" SCONAME="ZCX_MODBAP" VERSION="1" LANGU="E" DESCRIPT="Exception Class moDBap" MTDTYPE="0" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120223" CHANGEDON="00000000"/>
+   <source>METHOD auth.
+
+*--------------------------------------------------------------------*
+* background
+* see http://www.mongodb.org/display/DOCS/Security+and+Authentication
+* see http://www.mongodb.org/display/DOCS/Implementing+Authentication+in+a+Driver
+*--------------------------------------------------------------------*
+
+  DATA: uri           TYPE string
+      , response_json TYPE string
+      , response      TYPE ts_response
+      .
+
+  uri = |{ me-&gt;dbname }/_authenticate|.
+
+  client-&gt;request-&gt;set_header_field(
+    name = &apos;~request_uri&apos;
+    value = uri
+    ).
+
+  client-&gt;request-&gt;set_header_field(
+    name  = &apos;~request_method&apos;
+    value = &apos;POST&apos;
+    ).
+
+  client-&gt;request-&gt;set_header_field(
+    name = &apos;Content-Type&apos;
+    value = &apos;application/x-www-form-urlencoded&apos;
+    ).
+
+  client-&gt;request-&gt;set_form_field(
+    EXPORTING
+      name  = &apos;username&apos;
+      value = username
+      ).
+
+  client-&gt;request-&gt;set_form_field(
+    EXPORTING
+      name  = &apos;password&apos;
+      value = password
+      ).
+
+  client-&gt;send( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  client-&gt;receive( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  client-&gt;request-&gt;delete_form_field_secure( &apos;username&apos; ).
+  client-&gt;request-&gt;delete_form_field_secure( &apos;password&apos; ).
+
+  response_json = client-&gt;response-&gt;get_cdata( ).
+
+  json_doc-&gt;get_data(
+    EXPORTING
+      json = response_json
+    IMPORTING
+      data = response
+    ).
+
+  IF response-ok = 1.
+    result = response-results.
+  ELSE.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid   = zcx_modbap=&gt;db_error
+        response = response-errmsg.
+  ENDIF.
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_MONGO_DB" CMPNAME="CMD" VERSION="1" LANGU="E" DESCRIPT="Database command" EXPOSURE="2" STATE="1" EDITORDER="4 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="CMD" SCONAME="CMD" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120221" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="CMD" SCONAME="RESULT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120210" CHANGEDBY="SE38_UWE" CHANGEDON="20120223" PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="STRING"/>
+   <exception CLSNAME="ZCL_MONGO_DB" CMPNAME="CMD" SCONAME="ZCX_MODBAP" VERSION="1" LANGU="E" DESCRIPT="Exception Class moDBap" MTDTYPE="0" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDON="00000000"/>
+   <source>METHOD cmd.
+
+  DATA: uri           TYPE string
+      , cdata         TYPE string
+      .
+
+*--------------------------------------------------------------------*
+* see list of database commands:
+* http://www.mongodb.org/display/DOCS/List+of+Database+Commands
+*
+* example:
+* {&quot;buildinfo&quot;:1}
+* {&quot;count&quot;:&quot;scarr&quot;}
+*--------------------------------------------------------------------*
+
+  cdata = |cmd={ cl_http_utility=&gt;escape_url( cmd ) }|.
+  client-&gt;request-&gt;set_cdata( cdata ).
+
+  uri = |{ me-&gt;dbname }/_cmd|.
+
+  client-&gt;request-&gt;set_header_field(
+    name = &apos;~request_uri&apos;
+    value = uri
+    ).
+
+  client-&gt;request-&gt;set_header_field(
+    name  = &apos;~request_method&apos;
+    value = &apos;POST&apos;
+    ).
+
+  client-&gt;request-&gt;set_header_field(
+    name = &apos;Content-Type&apos;
+    value = &apos;application/x-www-form-urlencoded&apos;
+    ).
+
+  client-&gt;send( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  client-&gt;receive( EXCEPTIONS http_communication_failure = 8 ).
+  IF sy-subrc &lt;&gt; 0.
+    RAISE EXCEPTION TYPE zcx_modbap
+      EXPORTING
+        textid = zcx_modbap=&gt;communication_failure.
+  ENDIF.
+
+  result = client-&gt;response-&gt;get_cdata( ).
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_MONGO_DB" CMPNAME="COLLECTION" VERSION="1" LANGU="E" DESCRIPT="set collection" EXPOSURE="2" STATE="1" EDITORDER="3 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" MTDTYPE="0" MTDDECLTYP="0" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="COLLECTION" SCONAME="COLLECTIONNAME" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="COLLECTION" SCONAME="COLLECTION" VERSION="1" LANGU="E" DESCRIPT="Mongo DB collection" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDBY="SE38_UWE" CHANGEDON="20120209" PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="3" TYPE="ZCL_MONGO_COLLECTION"/>
+   <source>METHOD collection.
+
+  CREATE OBJECT collection
+    EXPORTING
+      db         = me
+      collection = collectionname.
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_MONGO_DB" CMPNAME="CONSTRUCTOR" VERSION="1" LANGU="E" DESCRIPT="CONSTRUCTOR" EXPOSURE="2" STATE="1" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDON="00000000" MTDTYPE="2" MTDDECLTYP="0" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="CONSTRUCTOR" SCONAME="CONNECTION" VERSION="1" LANGU="E" DESCRIPT="Mongo DB Connection" CMPTYPE="1" MTDTYPE="2" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDON="00000000" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="ZCL_MONGO_CONNECTION"/>
+   <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="CONSTRUCTOR" SCONAME="DBNAME" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120209" CHANGEDBY="SE38_UWE" CHANGEDON="20120224" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <source>METHOD constructor.
+
+  me-&gt;client     = connection-&gt;client.
+  me-&gt;connection = connection.
+  me-&gt;dbname     = dbname.
+
+  CREATE OBJECT me-&gt;json_doc.
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_MONGO_DB" CMPNAME="GET_DBNAME" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDON="00000000" MTDTYPE="0" MTDDECLTYP="0" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_MONGO_DB" CMPNAME="GET_DBNAME" SCONAME="DBNAME" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120224" CHANGEDON="00000000" PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="STRING"/>
+   <source>METHOD get_dbname.
+
+  dbname = me-&gt;dbname.
+
+ENDMETHOD.</source>
+  </method>
+ </CLAS>
+ <CLAS CLSNAME="ZCX_MODBAP" VERSION="1" LANGU="E" DESCRIPT="Exception Class moDBap" UUID="000C2924C4D21EE196C098A28E81925D" CATEGORY="40" EXPOSURE="2" STATE="1" RELEASE="0" AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDON="00000000" CHGDANYON="00000000" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X" R3RELEASE="702" CLSBCCAT="00" DURATION_TYPE="0 " RISK_LEVEL="0 " REFCLSNAME="CX_STATIC_CHECK">
+  <implementing CLSNAME="ZCX_MODBAP" REFCLSNAME="IF_T100_MESSAGE" VERSION="1" EXPOSURE="2" STATE="1" AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDON="00000000" RELTYPE="1" EDITORDER="0 "/>
+  <publicSection>class ZCX_MODBAP definition
+  public
+  inheriting from CX_STATIC_CHECK
+  final
+  create public .
+
+public section.
+*&quot;* public components of class ZCX_MODBAP
+*&quot;* do not include other source files here!!!
+
+  interfaces IF_T100_MESSAGE .
+
+  constants:
+    begin of COMMUNICATION_FAILURE,
+      msgid type symsgid value &apos;ZMODBAP&apos;,
+      msgno type symsgno value &apos;001&apos;,
+      attr1 type scx_attrname value &apos;&apos;,
+      attr2 type scx_attrname value &apos;&apos;,
+      attr3 type scx_attrname value &apos;&apos;,
+      attr4 type scx_attrname value &apos;&apos;,
+    end of COMMUNICATION_FAILURE .
+  constants:
+    begin of DB_ERROR,
+      msgid type symsgid value &apos;ZMODBAP&apos;,
+      msgno type symsgno value &apos;002&apos;,
+      attr1 type scx_attrname value &apos;RESPONSE&apos;,
+      attr2 type scx_attrname value &apos;&apos;,
+      attr3 type scx_attrname value &apos;&apos;,
+      attr4 type scx_attrname value &apos;&apos;,
+    end of DB_ERROR .
+  constants:
+    begin of PARAMETER_ERROR,
+      msgid type symsgid value &apos;ZMODBAP&apos;,
+      msgno type symsgno value &apos;003&apos;,
+      attr1 type scx_attrname value &apos;&apos;,
+      attr2 type scx_attrname value &apos;&apos;,
+      attr3 type scx_attrname value &apos;&apos;,
+      attr4 type scx_attrname value &apos;&apos;,
+    end of PARAMETER_ERROR .
+  data RESPONSE type STRING .
+
+  methods CONSTRUCTOR
+    importing
+      !TEXTID like IF_T100_MESSAGE=&gt;T100KEY optional
+      !PREVIOUS like PREVIOUS optional
+      !RESPONSE type STRING optional .</publicSection>
+  <protectedSection>protected section.
+*&quot;* protected components of class ZCX_MODBAP
+*&quot;* do not include other source files here!!!</protectedSection>
+  <privateSection>private section.
+*&quot;* private components of class ZCX_MODBAP
+*&quot;* do not include other source files here!!!</privateSection>
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <attribute CLSNAME="ZCX_MODBAP" CMPNAME="COMMUNICATION_FAILURE" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="1 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDBY="SE38_UWE" CHANGEDON="20120218" ATTDECLTYP="2" ATTEXPVIRT="0" TYPTYPE="4" SRCROW1="14 " SRCCOLUMN1="4 " SRCROW2="21 " SRCCOLUMN2="31 " LOCKED="X" TYPESRC_LENG="313 " TYPESRC="begin of COMMUNICATION_FAILURE,
+      msgid type symsgid value &apos;ZMODBAP&apos;,
+      msgno type symsgno value &apos;001&apos;,
+      attr1 type scx_attrname value &apos;&apos;,
+      attr2 type scx_attrname value &apos;&apos;,
+      attr3 type scx_attrname value &apos;&apos;,
+      attr4 type scx_attrname value &apos;&apos;,
+    end of COMMUNICATION_FAILURE
+"/>
+  <attribute CLSNAME="ZCX_MODBAP" CMPNAME="DB_ERROR" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="2 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDBY="SE38_UWE" CHANGEDON="20120218" ATTDECLTYP="2" ATTEXPVIRT="0" TYPTYPE="4" SRCROW1="23 " SRCCOLUMN1="4 " SRCROW2="30 " SRCCOLUMN2="18 " LOCKED="X" TYPESRC_LENG="295 " TYPESRC="begin of DB_ERROR,
+      msgid type symsgid value &apos;ZMODBAP&apos;,
+      msgno type symsgno value &apos;002&apos;,
+      attr1 type scx_attrname value &apos;RESPONSE&apos;,
+      attr2 type scx_attrname value &apos;&apos;,
+      attr3 type scx_attrname value &apos;&apos;,
+      attr4 type scx_attrname value &apos;&apos;,
+    end of DB_ERROR
+"/>
+  <attribute CLSNAME="ZCX_MODBAP" CMPNAME="PARAMETER_ERROR" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="3 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDBY="SE38_UWE" CHANGEDON="20120218" ATTDECLTYP="2" ATTEXPVIRT="0" TYPTYPE="4" SRCROW1="32 " SRCCOLUMN1="4 " SRCROW2="39 " SRCCOLUMN2="25 " LOCKED="X" TYPESRC_LENG="301 " TYPESRC="begin of PARAMETER_ERROR,
+      msgid type symsgid value &apos;ZMODBAP&apos;,
+      msgno type symsgno value &apos;003&apos;,
+      attr1 type scx_attrname value &apos;&apos;,
+      attr2 type scx_attrname value &apos;&apos;,
+      attr3 type scx_attrname value &apos;&apos;,
+      attr4 type scx_attrname value &apos;&apos;,
+    end of PARAMETER_ERROR
+"/>
+  <attribute CLSNAME="ZCX_MODBAP" CMPNAME="RESPONSE" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="4 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDBY="SE38_UWE" CHANGEDON="20120218" ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="STRING" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " R3RELEASE="702" TYPESRC_LENG="0 "/>
+  <inheritance CLSNAME="ZCX_MODBAP" REFCLSNAME="CX_STATIC_CHECK" VERSION="1" STATE="1" AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDON="00000000"/>
+  <method CLSNAME="ZCX_MODBAP" CMPNAME="CONSTRUCTOR" VERSION="1" LANGU="E" DESCRIPT="CONSTRUCTOR" EXPOSURE="2" STATE="1" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDON="00000000" MTDTYPE="2" MTDDECLTYP="0" LOCKED="X" R3RELEASE="702" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCX_MODBAP" CMPNAME="CONSTRUCTOR" SCONAME="TEXTID" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="1 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDBY="SE38_UWE" CHANGEDON="20120218" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="0" TYPE="IF_T100_MESSAGE=&gt;T100KEY" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCX_MODBAP" CMPNAME="CONSTRUCTOR" SCONAME="PREVIOUS" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="2 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDBY="SE38_UWE" CHANGEDON="20120218" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="0" TYPE="PREVIOUS" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCX_MODBAP" CMPNAME="CONSTRUCTOR" SCONAME="RESPONSE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="3 " DISPID="0 " AUTHOR="SE38_UWE" CREATEDON="20120218" CHANGEDBY="SE38_UWE" CHANGEDON="20120218" PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING" PAROPTIONL="X"/>
+   <source>method CONSTRUCTOR.
+CALL METHOD SUPER-&gt;CONSTRUCTOR
+EXPORTING
+PREVIOUS = PREVIOUS
+.
+me-&gt;RESPONSE = RESPONSE .
+clear me-&gt;textid.
+if textid is initial.
+  IF_T100_MESSAGE~T100KEY = IF_T100_MESSAGE=&gt;DEFAULT_TEXTID.
+else.
+  IF_T100_MESSAGE~T100KEY = TEXTID.
+endif.
+endmethod.</source>
+  </method>
+ </CLAS>
+ <MSAG ARBGB="ZMODBAP" MASTERLANG="E" RESPUSER="SE38_UWE" LASTUSER="SE38_UWE" LDATE="20120218" LTIME="093122" STEXT="moDBap">
+  <t100 SPRSL="E" ARBGB="ZMODBAP" MSGNR="001" TEXT="Communication failure"/>
+  <t100 SPRSL="E" ARBGB="ZMODBAP" MSGNR="002" TEXT="DB response: &amp;1"/>
+  <t100 SPRSL="E" ARBGB="ZMODBAP" MSGNR="003" TEXT="Please pass either JSON (newObj) or ABAP data (DATA)"/>
+  <t100t SPRSL="E" ARBGB="ZMODBAP" STEXT="moDBap"/>
+ </MSAG>
+</nugget>
