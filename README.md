@@ -1,4 +1,4 @@
-# moDBap, 
+# moDBap
 The ABAP mongo DB API
 
 ## Needed 3rd party software
@@ -8,7 +8,7 @@ The ABAP mongo DB API
 * Sleepy.Mongoose (Mongo DB HTTP interface) https://github.com/kchodorow/sleepy.mongoose
 
 ## Needed packages
-* ABAP JSON document class >= 0.2.5 https://cw.sdn.sap.com/cw/groups/zjson
+* ABAP JSON document class >= 0.2.5 https://github.com/se38/zJSON
 * moDBap (this project)
 
 ## Installation
