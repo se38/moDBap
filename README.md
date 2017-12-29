@@ -5,7 +5,7 @@ The ABAP mongo DB API
 * Mongo DB >= 2.0.2 http://www.mongodb.org
 * Python 2.7.x http://python.org
 * PyMongo 2.1.1 (Python Mongo DB driver) http://api.mongodb.org/python/current/
-* Sleepy.Mongoose (Mongo DB HTTP interface) https://github.com/kchodorow/sleepy.mongoose
+* Sleepy.Mongoose (Mongo DB HTTP interface) https://github.com/mongodb-labs/sleepy.mongoose
 
 ## Needed packages
 * ABAP JSON document class >= 0.2.5 https://github.com/se38/zJSON
